@@ -1,4 +1,4 @@
-import os, shutil, random, datetime
+import os, shutil, random
 from tensorflow.keras import layers, models
 from tensorflow.keras import optimizers, regularizers
 from tensorflow.keras.preprocessing import image
@@ -121,14 +121,14 @@ for data_batch, labels_batch in train_generator:
     print('labels batch shape:', labels_batch.shape)
     break
 
-# log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-# tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir)
+tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir="./logs")
 
 history = model.fit_generator(
     train_generator,
     steps_per_epoch=300,
     epochs=20,
-    validation_data=validation_generator
+    validation_data=validation_generator,
+    callbacks=[tensorboard_callback]
     )
 model.save('chinese_mnist.h5')
 
